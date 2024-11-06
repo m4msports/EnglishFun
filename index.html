@@ -13,7 +13,7 @@
   }
   body {
     font-family: Arial, sans-serif;
-    background-color: #FDE100;
+    background-color: #FDE100; /* Borussia Dortmund Yellow */
     color: #000;
     display: flex;
     align-items: center;
@@ -22,7 +22,7 @@
     flex-direction: column;
   }
   /* Container Styling */
-  .quiz-container, .start-container, .result-container {
+  .quiz-container {
     width: 90%;
     max-width: 500px;
     background: #FFF;
@@ -33,6 +33,7 @@
   }
   h1 {
     color: #000;
+    font-size: 24px;
   }
   .question {
     font-size: 18px;
@@ -87,17 +88,21 @@
 </div>
 
 <script>
-  // Array to hold 100 quiz questions based on various themes
+  // Array to hold 150 quiz questions based on various themes
   const questions = [
-    { question: "What did Lionel Messi do in the World Cup?", options: ["scored", "scores", "will score"], answer: "scored", explanation: "The correct answer is 'scored' as it is the simple past of 'score'." },
-    { question: "Where did you go on vacation?", options: ["gone", "went", "go"], answer: "went", explanation: "The correct answer is 'went' as it is the simple past of 'go'." },
-    { question: "What did your father cook last weekend?", options: ["cooked", "cook", "cooking"], answer: "cooked", explanation: "The correct answer is 'cooked' as it is the simple past of 'cook'." },
-    { question: "Who won the game yesterday?", options: ["winning", "wins", "won"], answer: "won", explanation: "The correct answer is 'won' as it is the simple past of 'win'." },
-    { question: "What did you do in Minecraft yesterday?", options: ["made", "makes", "make"], answer: "made", explanation: "The correct answer is 'made' as it is the simple past of 'make'." },
-    { question: "Where did you see your best friend?", options: ["saw", "see", "seeing"], answer: "saw", explanation: "The correct answer is 'saw' as it is the simple past of 'see'." },
-    { question: "What did you play on Saturday?", options: ["play", "played", "playing"], answer: "played", explanation: "The correct answer is 'played' as it is the simple past of 'play'." },
-    { question: "What did your brother find?", options: ["finds", "finding", "found"], answer: "found", explanation: "The correct answer is 'found' as it is the simple past of 'find'." },
-    // ... add 92 more questions following this format.
+    { question: "What did Lionel Messi do in the last World Cup?", options: ["score", "scored", "scores"], answer: "scored", explanation: "The correct answer is 'scored' because it is the simple past form of 'score'." },
+    { question: "Where did you go last weekend?", options: ["went", "goes", "go"], answer: "went", explanation: "The correct answer is 'went', which is the simple past form of 'go'." },
+    { question: "What did you cook yesterday?", options: ["cook", "cooked", "cooking"], answer: "cooked", explanation: "The correct answer is 'cooked', which is the simple past form of 'cook'." },
+    { question: "Who won the soccer game last Sunday?", options: ["wins", "won", "win"], answer: "won", explanation: "The correct answer is 'won', which is the simple past form of 'win'." },
+    { question: "What did you build in Minecraft?", options: ["builded", "built", "building"], answer: "built", explanation: "The correct answer is 'built', which is the simple past form of 'build'." },
+    { question: "Where did you see your family?", options: ["see", "saw", "seeing"], answer: "saw", explanation: "The correct answer is 'saw', which is the simple past form of 'see'." },
+    { question: "What did you play with your friends?", options: ["play", "played", "plays"], answer: "played", explanation: "The correct answer is 'played', which is the simple past form of 'play'." },
+    { question: "How did you feel after the game?", options: ["feel", "felt", "feels"], answer: "felt", explanation: "The correct answer is 'felt', which is the simple past form of 'feel'." },
+    { question: "What did your sister buy?", options: ["buy", "bought", "buys"], answer: "bought", explanation: "The correct answer is 'bought', which is the simple past form of 'buy'." },
+    { question: "Where did your team travel?", options: ["travels", "traveled", "travel"], answer: "traveled", explanation: "The correct answer is 'traveled', which is the simple past form of 'travel'." },
+    { question: "What did you read in English class?", options: ["reads", "read", "reading"], answer: "read", explanation: "The correct answer is 'read', which is the simple past form of 'read'." },
+    { question: "What did your father make for dinner?", options: ["makes", "make", "made"], answer: "made", explanation: "The correct answer is 'made', which is the simple past form of 'make'." },
+    // ... continue adding questions until there are 150 total questions.
   ];
 
   let shuffledQuestions = [];
