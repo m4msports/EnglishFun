@@ -5,57 +5,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>English Quiz - Simple Past</title>
 <style>
+  /* Basic Reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
   body {
     font-family: Arial, sans-serif;
     background-color: #FDE100;
     color: #000;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin: 0;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
   }
-  .quiz-container {
+  /* Container Styling */
+  .quiz-container, .start-container, .result-container {
+    width: 90%;
     max-width: 500px;
-    width: 100%;
+    background: #FFF;
     padding: 20px;
-    border: 2px solid #000;
-    border-radius: 10px;
-    background-color: #FFF;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
   }
   h1 {
     color: #000;
   }
   .question {
     font-size: 18px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
   }
   .options {
     display: flex;
     flex-direction: column;
+    gap: 10px;
   }
   .option {
-    margin-bottom: 10px;
     background-color: #FFF;
     padding: 10px;
     border: 2px solid #000;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
   }
   .option:hover {
     background-color: #FDE100;
     color: #000;
   }
   .btn {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    margin-top: 20px;
     background-color: #000;
     color: #FFF;
+    padding: 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;
   }
   .btn:hover {
     background-color: #FDE100;
@@ -71,7 +78,7 @@
 </style>
 </head>
 <body>
-<div class="quiz-container">
+<div class="quiz-container" id="quiz-container">
   <h1>English Quiz: Simple Past</h1>
   <div id="question-container" class="question"></div>
   <div id="options-container" class="options"></div>
@@ -80,68 +87,74 @@
 </div>
 
 <script>
-// Array to hold quiz questions
-const questions = [
-  { question: "What is the past form of 'go'?", options: ["goed", "went", "going"], answer: "went", explanation: "The correct answer is 'went' as it is the simple past of 'go'." },
-  { question: "What is the past form of 'have'?", options: ["had", "has", "haved"], answer: "had", explanation: "The correct answer is 'had' as it is the simple past of 'have'." },
-  // Add more questions here...
-];
+  // Array to hold 100 quiz questions based on various themes
+  const questions = [
+    { question: "What did Lionel Messi do in the World Cup?", options: ["scored", "scores", "will score"], answer: "scored", explanation: "The correct answer is 'scored' as it is the simple past of 'score'." },
+    { question: "Where did you go on vacation?", options: ["gone", "went", "go"], answer: "went", explanation: "The correct answer is 'went' as it is the simple past of 'go'." },
+    { question: "What did your father cook last weekend?", options: ["cooked", "cook", "cooking"], answer: "cooked", explanation: "The correct answer is 'cooked' as it is the simple past of 'cook'." },
+    { question: "Who won the game yesterday?", options: ["winning", "wins", "won"], answer: "won", explanation: "The correct answer is 'won' as it is the simple past of 'win'." },
+    { question: "What did you do in Minecraft yesterday?", options: ["made", "makes", "make"], answer: "made", explanation: "The correct answer is 'made' as it is the simple past of 'make'." },
+    { question: "Where did you see your best friend?", options: ["saw", "see", "seeing"], answer: "saw", explanation: "The correct answer is 'saw' as it is the simple past of 'see'." },
+    { question: "What did you play on Saturday?", options: ["play", "played", "playing"], answer: "played", explanation: "The correct answer is 'played' as it is the simple past of 'play'." },
+    { question: "What did your brother find?", options: ["finds", "finding", "found"], answer: "found", explanation: "The correct answer is 'found' as it is the simple past of 'find'." },
+    // ... add 92 more questions following this format.
+  ];
 
-let shuffledQuestions = [];
-let currentQuestionIndex = 0;
-let score = 0;
-const totalQuestions = 100;
-const passScore = 75;
+  let shuffledQuestions = [];
+  let currentQuestionIndex = 0;
+  let score = 0;
+  const totalQuestions = 100;
+  const passScore = 75;
 
-function startQuiz() {
-  shuffledQuestions = questions.sort(() => Math.random() - 0.5).slice(0, totalQuestions);
-  currentQuestionIndex = 0;
-  score = 0;
-  nextQuestion();
-}
-
-function showQuestion(question) {
-  document.getElementById('question-container').innerText = question.question;
-  const optionsContainer = document.getElementById('options-container');
-  optionsContainer.innerHTML = '';
-  question.options.forEach(option => {
-    const optionButton = document.createElement('button');
-    optionButton.innerText = option;
-    optionButton.classList.add('option');
-    optionButton.addEventListener('click', () => selectAnswer(question, option));
-    optionsContainer.appendChild(optionButton);
-  });
-  document.getElementById('explanation-container').style.display = 'none';
-}
-
-function selectAnswer(question, selectedOption) {
-  if (selectedOption === question.answer) {
-    score++;
+  function startQuiz() {
+    shuffledQuestions = questions.sort(() => Math.random() - 0.5).slice(0, totalQuestions);
+    currentQuestionIndex = 0;
+    score = 0;
     nextQuestion();
-  } else {
-    document.getElementById('explanation-container').innerText = question.explanation;
-    document.getElementById('explanation-container').style.display = 'block';
-    document.getElementById('next-btn').style.display = 'block';
   }
-}
 
-function nextQuestion() {
-  if (currentQuestionIndex < shuffledQuestions.length) {
-    showQuestion(shuffledQuestions[currentQuestionIndex]);
-    currentQuestionIndex++;
-  } else {
-    finishQuiz();
+  function showQuestion(question) {
+    document.getElementById('question-container').innerText = question.question;
+    const optionsContainer = document.getElementById('options-container');
+    optionsContainer.innerHTML = '';
+    question.options.forEach(option => {
+      const optionButton = document.createElement('button');
+      optionButton.innerText = option;
+      optionButton.classList.add('option');
+      optionButton.addEventListener('click', () => selectAnswer(question, option));
+      optionsContainer.appendChild(optionButton);
+    });
+    document.getElementById('explanation-container').style.display = 'none';
   }
-}
 
-function finishQuiz() {
-  const resultMessage = score >= passScore ? "Congratulations! You passed the quiz!" : "You did not pass. Try again!";
-  alert(`${resultMessage}\nYour score: ${score}/${totalQuestions}`);
-  startQuiz(); // Reset quiz for a new attempt
-}
+  function selectAnswer(question, selectedOption) {
+    if (selectedOption === question.answer) {
+      score++;
+      nextQuestion();
+    } else {
+      document.getElementById('explanation-container').innerText = question.explanation;
+      document.getElementById('explanation-container').style.display = 'block';
+      document.getElementById('next-btn').style.display = 'block';
+    }
+  }
 
-// Initialize the quiz
-startQuiz();
+  function nextQuestion() {
+    if (currentQuestionIndex < shuffledQuestions.length) {
+      showQuestion(shuffledQuestions[currentQuestionIndex]);
+      currentQuestionIndex++;
+    } else {
+      finishQuiz();
+    }
+  }
+
+  function finishQuiz() {
+    const resultMessage = score >= passScore ? "Congratulations! You passed the quiz!" : "You did not pass. Try again!";
+    alert(`${resultMessage}\nYour score: ${score}/${totalQuestions}`);
+    startQuiz(); // Reset quiz for a new attempt
+  }
+
+  // Initialize the quiz
+  startQuiz();
 </script>
 </body>
 </html>
