@@ -1,302 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Jerry's English Past Tense Soccer Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f0f5ff;
-        }
-        .quiz-container {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .progress-bar {
-            width: 100%;
-            height: 20px;
-            background-color: #f0f0f0;
-            border-radius: 10px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background-color: #4CAF50;
-            transition: width 0.3s ease;
-        }
-        .title {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            font-size: 16px;
-        }
-        .question {
-            font-size: 18px;
-            margin: 20px 0;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 5px;
-        }
-        .answer-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 2px solid #e0e0e0;
-            border-radius: 5px;
-            background: white;
-            cursor: pointer;
-            text-align: left;
-            font-size: 16px;
-            transition: all 0.2s;
-        }
-        .answer-btn:hover {
-            background: #f0f0f0;
-            transform: translateX(5px);
-        }
-        .answer-btn.correct {
-            background: #90EE90;
-            border-color: #4CAF50;
-        }
-        .answer-btn.wrong {
-            background: #FFB6C1;
-            border-color: #ff4444;
-        }
-        .explanation {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e3f2fd;
-            border-radius: 5px;
-            display: none;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-        .next-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 5px;
-            background: #2196F3;
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.2s;
-        }
-        .next-btn:hover {
-            background: #1976D2;
-        }
-        .result {
-            text-align: center;
-            font-size: 20px;
-            margin: 20px 0;
-            display: none;
-        }
-        .result-stats {
-            margin: 20px 0;
-            padding: 20px;
-            background: #e3f2fd;
-            border-radius: 5px;
-        }
-        .restart-btn {
-            background: #4CAF50;
-        }
-        .restart-btn:hover {
-            background: #388E3C;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Quiz - Simple Past</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #FDE100;
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+  }
+  .quiz-container {
+    max-width: 500px;
+    width: 100%;
+    padding: 20px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    background-color: #FFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  h1 {
+    color: #000;
+  }
+  .question {
+    font-size: 18px;
+    margin-bottom: 15px;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+  }
+  .option {
+    margin-bottom: 10px;
+    background-color: #FFF;
+    padding: 10px;
+    border: 2px solid #000;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .option:hover {
+    background-color: #FDE100;
+    color: #000;
+  }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #000;
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .btn:hover {
+    background-color: #FDE100;
+    color: #000;
+  }
+  .explanation {
+    background-color: #f8f8f8;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    display: none;
+  }
+</style>
 </head>
 <body>
-    <div class="quiz-container">
-        <div class="title">⚽ Jerry's English Soccer Past Tense Quiz ⚽</div>
-        <div class="progress-bar">
-            <div id="progress" class="progress-fill" style="width: 0%"></div>
-        </div>
-        <div class="stats">
-            <span>Question: <span id="questionNumber">1</span>/150</span>
-            <span>Score: <span id="score">0</span></span>
-            <span>Accuracy: <span id="accuracy">0</span>%</span>
-        </div>
-        <div id="question" class="question"></div>
-        <div id="answers"></div>
-        <div id="explanation" class="explanation"></div>
-        <button id="nextBtn" class="next-btn" style="display: none;">Next Question</button>
-        <div id="result" class="result"></div>
-    </div>
+<div class="quiz-container">
+  <h1>English Quiz: Simple Past</h1>
+  <div id="question-container" class="question"></div>
+  <div id="options-container" class="options"></div>
+  <button id="next-btn" class="btn" onclick="nextQuestion()">Next Question</button>
+  <div id="explanation-container" class="explanation"></div>
+</div>
 
-    <script>
-        const questions = [
-            // Regular -ed verbs (50 questions)
-            {
-                context: "Last match, the striker _____ the ball into the net.",
-                answers: ["kicked", "kick", "kicks", "kicking"],
-                correct: "kicked",
-                explanation: "Regular verb: We add -ed to form the past tense of 'kick'."
-            },
-            {
-                context: "The team _____ for two hours yesterday.",
-                answers: ["practiced", "practice", "practices", "practicing"],
-                correct: "practiced",
-                explanation: "Regular verb: Add -ed to 'practice' for past tense."
-            },
-            // ... (Adding more regular verb questions)
-            {
-                context: "The referee _____ the final whistle.",
-                answers: ["blowed", "blew", "blow", "blown"],
-                correct: "blew",
-                explanation: "Irregular verb: 'blow' changes to 'blew' in the past tense."
-            },
-            // Irregular verbs (50 questions)
-            {
-                context: "Manchester United _____ the championship last season.",
-                answers: ["won", "winned", "win", "winning"],
-                correct: "won",
-                explanation: "Irregular verb: 'win' changes to 'won' in past tense."
-            },
-            {
-                context: "The goalkeeper _____ an amazing save.",
-                answers: ["made", "maked", "make", "making"],
-                correct: "made",
-                explanation: "Irregular verb: 'make' changes to 'made' in past tense."
-            },
-            // ... (Adding more irregular verb questions)
-            
-            // Mixed regular and irregular with time expressions (50 questions)
-            {
-                context: "Two weeks ago, the coach _____ a new training program.",
-                answers: ["introduced", "introduce", "introduces", "introducing"],
-                correct: "introduced",
-                explanation: "Regular verb with time expression 'two weeks ago'."
-            }
-            // Note: Full 150 questions would be included here
-        ];
+<script>
+// Array to hold quiz questions
+const questions = [
+  { question: "What is the past form of 'go'?", options: ["goed", "went", "going"], answer: "went", explanation: "The correct answer is 'went' as it is the simple past of 'go'." },
+  { question: "What is the past form of 'have'?", options: ["had", "has", "haved"], answer: "had", explanation: "The correct answer is 'had' as it is the simple past of 'have'." },
+  // Add more questions here...
+];
 
-        let currentQuestion = 0;
-        let score = 0;
-        let totalAnswered = 0;
+let shuffledQuestions = [];
+let currentQuestionIndex = 0;
+let score = 0;
+const totalQuestions = 100;
+const passScore = 75;
 
-        function updateStats() {
-            document.getElementById('questionNumber').textContent = currentQuestion + 1;
-            document.getElementById('score').textContent = score;
-            document.getElementById('accuracy').textContent = 
-                totalAnswered ? Math.round((score / totalAnswered) * 100) : 0;
-            document.getElementById('progress').style.width = 
-                `${((currentQuestion + 1) / questions.length) * 100}%`;
-        }
+function startQuiz() {
+  shuffledQuestions = questions.sort(() => Math.random() - 0.5).slice(0, totalQuestions);
+  currentQuestionIndex = 0;
+  score = 0;
+  nextQuestion();
+}
 
-        function showQuestion() {
-            const question = questions[currentQuestion];
-            document.getElementById('question').textContent = question.context;
-            
-            const answersHtml = question.answers
-                .map(answer => `
-                    <button class="answer-btn" onclick="checkAnswer('${answer}')">
-                        ${answer}
-                    </button>`)
-                .join('');
-            
-            document.getElementById('answers').innerHTML = answersHtml;
-            document.getElementById('explanation').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'none';
-            updateStats();
-        }
+function showQuestion(question) {
+  document.getElementById('question-container').innerText = question.question;
+  const optionsContainer = document.getElementById('options-container');
+  optionsContainer.innerHTML = '';
+  question.options.forEach(option => {
+    const optionButton = document.createElement('button');
+    optionButton.innerText = option;
+    optionButton.classList.add('option');
+    optionButton.addEventListener('click', () => selectAnswer(question, option));
+    optionsContainer.appendChild(optionButton);
+  });
+  document.getElementById('explanation-container').style.display = 'none';
+}
 
-        function checkAnswer(answer) {
-            const question = questions[currentQuestion];
-            const buttons = document.querySelectorAll('.answer-btn');
-            totalAnswered++;
-            
-            buttons.forEach(button => {
-                button.disabled = true;
-                if (button.textContent.trim() === question.correct) {
-                    button.classList.add('correct');
-                } else if (button.textContent.trim() === answer && 
-                         answer !== question.correct) {
-                    button.classList.add('wrong');
-                }
-            });
+function selectAnswer(question, selectedOption) {
+  if (selectedOption === question.answer) {
+    score++;
+    nextQuestion();
+  } else {
+    document.getElementById('explanation-container').innerText = question.explanation;
+    document.getElementById('explanation-container').style.display = 'block';
+    document.getElementById('next-btn').style.display = 'block';
+  }
+}
 
-            if (answer === question.correct) {
-                score++;
-            }
+function nextQuestion() {
+  if (currentQuestionIndex < shuffledQuestions.length) {
+    showQuestion(shuffledQuestions[currentQuestionIndex]);
+    currentQuestionIndex++;
+  } else {
+    finishQuiz();
+  }
+}
 
-            document.getElementById('explanation').textContent = question.explanation;
-            document.getElementById('explanation').style.display = 'block';
-            
-            if (currentQuestion < questions.length - 1) {
-                document.getElementById('nextBtn').style.display = 'block';
-            } else {
-                showResult();
-            }
-            
-            updateStats();
-        }
+function finishQuiz() {
+  const resultMessage = score >= passScore ? "Congratulations! You passed the quiz!" : "You did not pass. Try again!";
+  alert(`${resultMessage}\nYour score: ${score}/${totalQuestions}`);
+  startQuiz(); // Reset quiz for a new attempt
+}
 
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion < questions.length) {
-                showQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        function showResult() {
-            const accuracy = Math.round((score / questions.length) * 100);
-            const result = document.getElementById('result');
-            result.style.display = 'block';
-            result.innerHTML = `
-                <h2>🏆 Quiz Complete! 🏆</h2>
-                <div class="result-stats">
-                    <p>Final Score: ${score} out of ${questions.length}</p>
-                    <p>Accuracy: ${accuracy}%</p>
-                    <p>Performance Rating: ${getPerformanceRating(accuracy)}</p>
-                </div>
-                <button class="next-btn restart-btn" onclick="resetQuiz()">
-                    Play Again
-                </button>
-            `;
-            
-            document.getElementById('question').style.display = 'none';
-            document.getElementById('answers').style.display = 'none';
-            document.getElementById('explanation').style.display = 'none';
-            document.getElementById('nextBtn').style.display = 'none';
-        }
-
-        function getPerformanceRating(accuracy) {
-            if (accuracy >= 90) return "Outstanding! Premier League Level! ⭐⭐⭐⭐⭐";
-            if (accuracy >= 80) return "Champions League Level! ⭐⭐⭐⭐";
-            if (accuracy >= 70) return "Europa League Level! ⭐⭐⭐";
-            if (accuracy >= 60) return "League One Level! ⭐⭐";
-            return "Keep practicing! You'll get there! ⭐";
-        }
-
-        function resetQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            totalAnswered = 0;
-            document.getElementById('question').style.display = 'block';
-            document.getElementById('answers').style.display = 'block';
-            document.getElementById('result').style.display = 'none';
-            showQuestion();
-        }
-
-        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
-        
-        // Start the quiz
-        showQuestion();
-    </script>
+// Initialize the quiz
+startQuiz();
+</script>
 </body>
 </html>
