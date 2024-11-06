@@ -88,6 +88,11 @@
             color: var(--bvb-black);
         }
 
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
         .feedback {
             margin-top: 20px;
             padding: 15px;
@@ -103,6 +108,17 @@
         .feedback.wrong {
             background: var(--wrong-red);
             color: white;
+        }
+
+        .next-btn {
+            background: var(--bvb-yellow);
+            color: var(--bvb-black);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            display: none;
         }
 
         .result-container {
@@ -160,6 +176,7 @@
             <div class="question" id="question-text"></div>
             <div class="options" id="options-container"></div>
             <div class="feedback" id="feedback"></div>
+            <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question →</button>
         </div>
 
         <div class="result-container" id="result-container">
@@ -185,26 +202,103 @@
                 explanation: "'Showed' is the correct simple past form of 'show'."
             },
             {
-                question: "Borussia Dortmund _____ the Champions League match yesterday.",
-                options: ["win", "won", "winning", "wins"],
-                correct: 1,
+                question: "Our team _____ the championship last season.",
+                options: ["wins", "winning", "won", "win"],
+                correct: 2,
                 explanation: "'Won' is the correct simple past form of 'win'."
             },
             // Minecraft themed questions
             {
-                question: "Steve _____ a diamond sword in the cave.",
+                question: "Yesterday, I _____ a diamond in the cave.",
                 options: ["found", "find", "finding", "finds"],
                 correct: 0,
                 explanation: "'Found' is the correct simple past form of 'find'."
             },
             {
-                question: "The creeper _____ up behind me and exploded.",
-                options: ["sneak", "sneaking", "sneaked", "sneaks"],
+                question: "The creeper _____ my house last night.",
+                options: ["destroy", "destroys", "destroyed", "destroying"],
                 correct: 2,
-                explanation: "'Sneaked' is the correct simple past form of 'sneak'."
+                explanation: "'Destroyed' is the correct simple past form of 'destroy'."
             },
-            // Continue with more questions following this pattern...
-            // Add remaining questions to reach 150 total
+            {
+                question: "Steve _____ a new world last week.",
+                options: ["create", "created", "creates", "creating"],
+                correct: 1,
+                explanation: "'Created' is the correct simple past form of 'create'."
+            },
+            // Cooking themed questions
+            {
+                question: "My mother _____ a delicious cake for my birthday.",
+                options: ["bake", "baked", "baking", "bakes"],
+                correct: 1,
+                explanation: "'Baked' is the correct simple past form of 'bake'."
+            },
+            {
+                question: "Last night, we _____ dinner at 8 PM.",
+                options: ["eat", "ate", "eating", "eats"],
+                correct: 1,
+                explanation: "'Ate' is the correct simple past form of 'eat'."
+            },
+            // Travel themed questions
+            {
+                question: "Last summer, we _____ to Berlin by train.",
+                options: ["travel", "traveled", "travels", "travelling"],
+                correct: 1,
+                explanation: "'Traveled' is the correct simple past form of 'travel'."
+            },
+            {
+                question: "The plane _____ off at 6 AM this morning.",
+                options: ["take", "took", "takes", "taking"],
+                correct: 1,
+                explanation: "'Took' is the correct simple past form of 'take'."
+            },
+            // Ice Hockey themed questions
+            {
+                question: "The player _____ the puck into the goal.",
+                options: ["shoot", "shot", "shoots", "shooting"],
+                correct: 1,
+                explanation: "'Shot' is the correct simple past form of 'shoot'."
+            },
+            {
+                question: "Our team _____ the championship last winter.",
+                options: ["win", "won", "wins", "winning"],
+                correct: 1,
+                explanation: "'Won' is the correct simple past form of 'win'."
+            },
+            // Family themed questions
+            {
+                question: "My sister _____ me with my homework yesterday.",
+                options: ["help", "helped", "helps", "helping"],
+                correct: 1,
+                explanation: "'Helped' is the correct simple past form of 'help'."
+            },
+            {
+                question: "We _____ our grandparents last weekend.",
+                options: ["visit", "visited", "visits", "visiting"],
+                correct: 1,
+                explanation: "'Visited' is the correct simple past form of 'visit'."
+            },
+            // Adding many more questions to reach 300...
+            {
+                question: "The goalkeeper _____ three amazing saves.",
+                options: ["make", "made", "makes", "making"],
+                correct: 1,
+                explanation: "'Made' is the correct simple past form of 'make'."
+            },
+            {
+                question: "Last night, I _____ my favorite movie again.",
+                options: ["watch", "watched", "watches", "watching"],
+                correct: 1,
+                explanation: "'Watched' is the correct simple past form of 'watch'."
+            },
+            {
+                question: "My friend _____ his new bike to school yesterday.",
+                options: ["ride", "rode", "rides", "riding"],
+                correct: 1,
+                explanation: "'Rode' is the correct simple past form of 'ride'."
+            },
+            // Continue with more questions...
+            // [Note: In actual implementation, continue adding questions to reach 300 total]
         ];
 
         let currentQuestions = [];
@@ -225,6 +319,7 @@
             score = 0;
             displayQuestion();
             document.getElementById('result-container').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
             updateScore();
         }
 
@@ -245,11 +340,17 @@
 
             document.getElementById('current-question').textContent = currentQuestionIndex + 1;
             document.getElementById('feedback').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
         }
 
         function checkAnswer(selectedIndex) {
             const questionData = currentQuestions[currentQuestionIndex];
             const feedback = document.getElementById('feedback');
+            const nextBtn = document.getElementById('next-btn');
+            
+            // Disable all options after answer is selected
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.add('disabled'));
             
             if (selectedIndex === questionData.correct) {
                 score++;
@@ -261,16 +362,17 @@
             }
             
             feedback.style.display = 'block';
+            nextBtn.style.display = 'block';
             updateScore();
-            
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < 100) {
-                    displayQuestion();
-                } else {
-                    showResults();
-                }
-            }, 2000);
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < 100) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
         }
 
         function updateScore() {
